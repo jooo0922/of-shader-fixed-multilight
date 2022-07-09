@@ -9,6 +9,20 @@ struct CameraData {
     float fov;
 };
 
+// 정적 멀티라이트 구현을 위해 각 라이트 유형별 구조체 생성
+struct DirectionalLight {
+    glm::vec3 direction;
+    glm::vec3 color;
+    float intensity;
+};
+
+struct PointLight {
+    glm::vec3 position;
+    glm::vec3 color;
+    float intensity;
+    float radius;
+};
+
 struct SpotLight {
     glm::vec3 position; // 조명의 위치 (포인트 라이트는 디렉셔널 라이트와 달리, 조명 위치를 중심으로 멀어질수록 감쇄를 계산해줘야 하므로, 조명의 '방향'이 아닌 '위치'가 필요함!)
     glm::vec3 direction; // 스포트라이트 조명의 ConeDirection. 즉, 원뿔의 정 가운데 방향벡터 (이 벡터를 기준으로 각 프래그먼트의 toLight 벡터와 이루는 각도를 비교해서 조명의 영향을 받게 할 것인지 결정함.)
@@ -37,9 +51,10 @@ class ofApp : public ofBaseApp{
         void gotMessage(ofMessage msg);
     
         // ofApp.cpp 에서 물 메쉬와 방패 메쉬를 그리는 함수를 분할해서 쪼개줄 것이므로, 각 함수의 메서드를 미리 선언해놓음.
-        void drawWater(SpotLight& spotLight, glm::mat4& proj, glm::mat4& view);
-        void drawShield(SpotLight& spotLight, glm::mat4& proj, glm::mat4& view);
-        void drawSkybox(SpotLight& spotLight, glm::mat4& proj, glm::mat4& view); // ofApp.cpp 에서 큐브메쉬를 그리는 함수를 따로 추출하기 위해 선언한 메서드.
+        // 이제 조명 유형별 구조체 배열을 헤더파일에 직접 선언해서 가져다 쓸 것이므로, 굳이 조명 구조체를 인자로 전달해주지 않아도 됨.
+        void drawWater(glm::mat4& proj, glm::mat4& view);
+        void drawShield(glm::mat4& proj, glm::mat4& view);
+        void drawSkybox(glm::mat4& proj, glm::mat4& view); // ofApp.cpp 에서 큐브메쉬를 그리는 함수를 따로 추출하기 위해 선언한 메서드.
 
         
         ofMesh shieldMesh; // shield.ply 모델링 파일을 로드해서 사용할 메쉬 객체 변수 선언
@@ -59,4 +74,9 @@ class ofApp : public ofBaseApp{
         CameraData cam; // 카메라 위치 및 fov(시야각)의 현재 상태값을 나타내는 구조체를 타입으로 갖는 멤버변수 cam 선언
     
         ofxEasyCubemap cubemap; // 오픈프레임웍스는 큐브맵을 지원하지 않으므로, 큐브맵 로드 및 유니폼 변수 전송에 필요한 커스텀 클래스 객체 변수 선언
+    
+        // 각 조명 유형별 구조체배열를 해더파일에 선언함. (이제 ofApp.cpp 내의 함수에서는 이 구조체배열을 가져다가 써주면 됨.)
+        DirectionalLight dirLights[1]; // 디렉셔널 라이트는 1개의 구조체배열로 선언
+        PointLight pointLights[2]; // 포인트 라이트는 2개의 구조체배열로 선언
+        SpotLight spotLights[2]; // 스포트 라이트는 2개의 구조체배열로 선언
 };
