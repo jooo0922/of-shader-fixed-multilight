@@ -301,23 +301,23 @@ void ofApp::draw(){
     pointLights[0].position = vec3(-0.5, 0.5, 0.25);
     pointLights[0].intensity = 1.0;
     
-    pointLights[0].color = vec3(0, 1, 0); // 조명색상 초록색 할당
-    pointLights[0].radius = 1.0f;
-    pointLights[0].position = vec3(0.5, 0.5, 0.25);
-    pointLights[0].intensity = 1.0;
+    pointLights[1].color = vec3(0, 1, 0); // 조명색상 초록색 할당
+    pointLights[1].radius = 1.0f;
+    pointLights[1].position = vec3(0.5, 0.5, 0.25);
+    pointLights[1].intensity = 1.0;
     
     // 2개의 스포트라이트 구조체배열에 데이터 할당
     spotLights[0].color = vec3(0, 0, 1); // 조명색상 파란색 할당
-    spotLights[0].position = cam.pos + vec3(0.0, 0.5, 0); // 조명 위치는 카메라 위치에서 0.5만큼 위로 올림
+    spotLights[0].position = cam.pos + vec3(0.7, 0.7, 0); // 조명 위치는 카메라 위치에서 좌상단으로 각각 0.7씩만큼 이동함
     spotLights[0].intensity = 1.0;
     spotLights[0].direction = vec3(0, 0, -1);
     spotLights[0].cutoff = glm::cos(glm::radians(35.0f));
     
-    spotLights[0].color = vec3(0, 1, 1); // 조명색상 청록색 할당
-    spotLights[0].position = cam.pos + vec3(0.0, -0.5, 0); // 조명 위치는 카메라 위치에서 0.5만큼 아래로 내림
-    spotLights[0].intensity = 1.5;
-    spotLights[0].direction = vec3(0, 0, -1);
-    spotLights[0].cutoff = glm::cos(glm::radians(15.0f));
+    spotLights[1].color = vec3(0, 1, 1); // 조명색상 청록색 할당
+    spotLights[1].position = cam.pos + vec3(0.0, -0.5, 0); // 조명 위치는 카메라 위치에서 0.5만큼 아래로 내림
+    spotLights[1].intensity = 1.0;
+    spotLights[1].direction = vec3(0, 0, -1);
+    spotLights[1].cutoff = glm::cos(glm::radians(15.0f));
     
     // 투영행렬 계산
     float aspect = 1024.0f / 768.0f; // main.cpp 에서 정의한 윈도우 실행창 사이즈를 기준으로 원근투영행렬의 종횡비(aspect)값을 계산함.
